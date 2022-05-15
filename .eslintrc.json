@@ -1,0 +1,16 @@
+{
+  "extends": ["strongloop", "plugin:prettier/recommended"],
+  "plugins": ["import"],
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module"
+  },
+  "rules": {
+    "max-len": [2, 160, 8],
+    "prettier/prettier": "error"
+  },
+  "env": {
+    "es2020": true,
+    "node": true
+  }
+}

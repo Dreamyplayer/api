@@ -1,0 +1,31 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "main": "src/app.js",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node ."
+  },
+  "dependencies": {
+    "apicache": "^1.6.3",
+    "compression": "^1.7.4",
+    "express": "^4.18.1",
+    "morgan": "^1.10.0",
+    "sqlite": "^4.1.1",
+    "sqlite3": "^5.0.8"
+  },
+  "devDependencies": {
+    "@types/apicache": "^1.6.1",
+    "@types/compression": "^1.7.2",
+    "@types/morgan": "^1.9.3",
+    "cross-fetch": "^3.1.5",
+    "dotenv": "^16.0.1",
+    "eslint": "^8.15.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-strongloop": "^2.1.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.6.2"
+  }
+}
