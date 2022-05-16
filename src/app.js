@@ -7,6 +7,7 @@ import { cwd, env } from 'node:process';
 import { open } from 'sqlite';
 import sqlite3 from 'sqlite3';
 import { getkey, langs } from '../database/langs.js';
+import { translate } from '../translate/app.js';
 config();
 
 // Database Setup
@@ -81,6 +82,13 @@ app.get('/languages/list', (req, res) => [
 app.get('/languages/:code', (req, res) => [
   res.status(200).send({
     Code: getkey(req.params.code),
+  }),
+  res.end(),
+]);
+
+app.get('/translate/:text/:to', async (req, res) => [
+  res.status(200).send({
+    Text: await translate(req.params.text, { from: 'en', to: req.params.to, autoCorrect: true }),
   }),
   res.end(),
 ]);
