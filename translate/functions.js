@@ -1,4 +1,23 @@
-import { langsObj } from '../database/langs.js';
+import { cwd } from 'node:process';
+import { open } from 'sqlite';
+import sqlite3 from 'sqlite3';
+
+const db = await open({
+  filename: `${cwd()}/database/collections.db`,
+  driver: sqlite3.cached.Database,
+});
+
+const langsDB = await db.all('SELECT code, name FROM languages');
+
+const buildObject = arr => {
+  const obj = {};
+  for (let i = 0; i < arr.length; i++) {
+    const { code, name } = arr[i];
+    obj[code] = name;
+  }
+  return obj;
+};
+const langsObj = buildObject(langsDB);
 
 export function getCode(desiredLang) {
   if (!desiredLang) {

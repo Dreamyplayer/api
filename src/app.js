@@ -1,4 +1,4 @@
-import apicache from 'apicache';
+// import apicache from 'apicache'; // use apicache to cache & get more faster API responses: current 1.5s per request since this saves in memory avoid cache
 import compression from 'compression';
 import { config } from 'dotenv';
 import express, { json } from 'express';
@@ -6,9 +6,16 @@ import logger from 'morgan';
 import { cwd, env } from 'node:process';
 import { open } from 'sqlite';
 import sqlite3 from 'sqlite3';
-import { getkey, langs } from '../database/langs.js';
 import { translate } from '../translate/app.js';
 config();
+
+// ========================================================
+const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
+
+const getkey = (data, key) => {
+  return data.find(lang => lang.name === capitalize(key))?.code;
+};
+// ========================================================
 
 // Database Setup
 const db = await open({
@@ -18,15 +25,17 @@ const db = await open({
 
 const musicDB = await db.all('SELECT name FROM music');
 const animeDB = await db.all('SELECT name FROM anime');
+const langsDB = await db.all('SELECT code, name FROM languages');
+const { list } = await db.get('SELECT list FROM Lists');
 
 const Music = musicDB.map(row => row.name);
 const Anime = animeDB.map(row => row.name);
 
-apicache.options({
-  headers: {
-    'cache-control': 'no-cache',
-  },
-}).middleware;
+// apicache.options({
+//   headers: {
+//     'cache-control': 'no-cache',
+//   },
+// }).middleware;
 
 const app = express();
 
@@ -35,8 +44,8 @@ const NODE_ENV = env.NODE_ENV || 'development';
 
 app.set('port', PORT);
 app.set('env', NODE_ENV);
-app.set('Cache-Control', 'no-cache');
-app.use(function (req, res, next) {
+// app.set('Cache-Control', 'no-cache');
+app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, API-Key');
   next();
@@ -47,7 +56,7 @@ app.use(compression());
 
 app.use(logger('tiny'));
 app.use(json());
-app.use(apicache.middleware('1 day'));
+// app.use(apicache.middleware('1 day'));
 
 app.use((req, res, next) => {
   const apiKey = req.get('API-Key');
@@ -74,24 +83,31 @@ app.get('/collections/music', (req, res) => [
 
 app.get('/languages/list', (req, res) => [
   res.status(200).send({
-    List: langs,
+    List: list.replace(/-/g, '`'),
   }),
   res.end(),
 ]);
 
 app.get('/languages/:code', (req, res) => [
   res.status(200).send({
-    Code: getkey(req.params.code),
+    Code: getkey(langsDB, req.params.code),
   }),
   res.end(),
 ]);
 
-app.get('/translate/:text/:to', async (req, res) => [
+app.get('/translate/:text/:to', async (req, res) => {
+  const { text, pronunciation } = await translate(req.params.text, {
+    from: 'en',
+    to: req.params.to,
+    autoCorrect: true,
+  });
+
   res.status(200).send({
-    Text: await translate(req.params.text, { from: 'en', to: req.params.to, autoCorrect: true }),
-  }),
-  res.end(),
-]);
+    Text: text,
+    Pronunciation: pronunciation === null ? null : pronunciation.normalize('NFD').replace(/\p{Diacritic}/gu, ''),
+  });
+  res.end();
+});
 
 app.listen(PORT, () => {
   console.log(`Express Server started on Port ${app.get('port')} | Environment : ${app.get('env')}`);
