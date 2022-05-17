@@ -1,13 +1,13 @@
 // import apicache from 'apicache'; // use apicache to cache & get more faster API responses: current 1.5s per request since this saves in memory avoid cache
 import compression from 'compression';
-import { config } from 'dotenv';
+// import { config } from 'dotenv';
 import express, { json } from 'express';
 import logger from 'morgan';
 import { env } from 'node:process';
 import { getkey, randomNoRepeats } from './functions.js';
 import { Anime, langsDB, list, Music } from './migrations.js';
 import { translate } from './translator.js';
-config();
+// config();
 
 // apicache.options({
 //   headers: {
