@@ -4,9 +4,9 @@ import { config } from 'dotenv';
 import express, { json } from 'express';
 import logger from 'morgan';
 import { env } from 'node:process';
-import { translate } from './translator.js';
 import { getkey, randomNoRepeats } from './functions.js';
 import { Anime, langsDB, list, Music } from './migrations.js';
+import { translate } from './translator.js';
 config();
 
 // apicache.options({
@@ -43,6 +43,10 @@ app.use((req, res, next) => {
   } else {
     next();
   }
+});
+
+app.get('/', (req, res) => {
+  res.send('Express on Vercel');
 });
 
 app.get('/collections/anime', (req, res) => [

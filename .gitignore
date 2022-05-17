@@ -55,3 +55,4 @@ config.js
 # Developments
 testing.js
 test/
+.vercel
