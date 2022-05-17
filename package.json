@@ -5,8 +5,8 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "dev": "node .",
-    "start": "vercel dev"
+    "start": "node .",
+    "dev": "vercel dev"
   },
   "dependencies": {
     "apicache": "^1.6.3",
