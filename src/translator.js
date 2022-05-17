@@ -92,7 +92,6 @@ export const translate = async (text, opts, gotopts) => {
           }
 
           if (json[1][0][0][5] === undefined || json[1][0][0][5] === null) {
-            // translation not found, could be a hyperlink or gender-specific translation?
             result.text = json[1][0][0][0];
           } else {
             result.text = json[1][0][0][5]
@@ -100,9 +99,6 @@ export const translate = async (text, opts, gotopts) => {
                 return obj[0];
               })
               .filter(Boolean)
-              // Google api seems to split text per sentences by <dot><space>
-              // So we join text back with spaces.
-              // See: https://github.com/vitalets/google-translate-api/issues/73
               .join(' ');
           }
           result.pronunciation = json[1][0][0][1];
