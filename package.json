@@ -5,7 +5,8 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "dev": "node ."
+    "dev": "node .",
+    "start": "vercel dev"
   },
   "dependencies": {
     "apicache": "^1.6.3",
@@ -19,7 +20,7 @@
     "@types/apicache": "^1.6.1",
     "@types/compression": "^1.7.2",
     "@types/morgan": "^1.9.3",
-    "cross-fetch": "^3.1.5",
+    "axios": "^0.27.2",
     "dotenv": "^16.0.1",
     "eslint": "^8.15.0",
     "eslint-config-prettier": "^8.5.0",

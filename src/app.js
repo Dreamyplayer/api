@@ -3,33 +3,11 @@ import compression from 'compression';
 import { config } from 'dotenv';
 import express, { json } from 'express';
 import logger from 'morgan';
-import { cwd, env } from 'node:process';
-import { open } from 'sqlite';
-import sqlite3 from 'sqlite3';
-import { translate } from '../translate/app.js';
+import { env } from 'node:process';
+import { translate } from './translator.js';
+import { getkey, randomNoRepeats } from './functions.js';
+import { Anime, langsDB, list, Music } from './migrations.js';
 config();
-
-// ========================================================
-const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
-
-const getkey = (data, key) => {
-  return data.find(lang => lang.name === capitalize(key))?.code;
-};
-// ========================================================
-
-// Database Setup
-const db = await open({
-  filename: `${cwd()}/database/collections.db`,
-  driver: sqlite3.cached.Database,
-});
-
-const musicDB = await db.all('SELECT name FROM music');
-const animeDB = await db.all('SELECT name FROM anime');
-const langsDB = await db.all('SELECT code, name FROM languages');
-const { list } = await db.get('SELECT list FROM Lists');
-
-const Music = musicDB.map(row => row.name);
-const Anime = animeDB.map(row => row.name);
 
 // apicache.options({
 //   headers: {
@@ -69,14 +47,14 @@ app.use((req, res, next) => {
 
 app.get('/collections/anime', (req, res) => [
   res.status(200).send({
-    Anime: Anime,
+    Anime: randomNoRepeats(Anime),
   }),
   res.end(),
 ]);
 
 app.get('/collections/music', (req, res) => [
   res.status(200).send({
-    Music: Music,
+    Music: randomNoRepeats(Music),
   }),
   res.end(),
 ]);

@@ -1,13 +1,23 @@
-import { cwd } from 'node:process';
-import { open } from 'sqlite';
-import sqlite3 from 'sqlite3';
+import { langsDB } from './migrations.js';
 
-const db = await open({
-  filename: `${cwd()}/database/collections.db`,
-  driver: sqlite3.cached.Database,
-});
+export const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
 
-const langsDB = await db.all('SELECT code, name FROM languages');
+export const getkey = (data, key) => {
+  return data.find(lang => lang.name === capitalize(key))?.code;
+};
+
+export const randomNoRepeats = arr => {
+  let copy = arr.slice(0);
+  return (() => {
+    if (copy.length < 1) {
+      copy = arr.slice(0);
+    }
+    let index = Math.floor(Math.random() * copy.length);
+    let item = copy[index];
+    copy.splice(index, 1);
+    return item;
+  })();
+};
 
 const buildObject = arr => {
   const obj = {};
@@ -17,6 +27,7 @@ const buildObject = arr => {
   }
   return obj;
 };
+
 const langsObj = buildObject(langsDB);
 
 export function getCode(desiredLang) {
