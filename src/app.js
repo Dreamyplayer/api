@@ -1,19 +1,19 @@
-// import apicache from 'apicache'; // use apicache to cache & get more faster API responses: current 1.5s per request since this saves in memory avoid cache
+import apicache from 'apicache';
 import compression from 'compression';
-// import { config } from 'dotenv';
+import { config } from 'dotenv';
 import express, { json } from 'express';
 import logger from 'morgan';
 import { env } from 'node:process';
 import { getkey, randomNoRepeats } from './functions.js';
 import { Anime, langsDB, list, Music } from './migrations.js';
 import { translate } from './translator.js';
-// config();
+config();
 
-// apicache.options({
-//   headers: {
-//     'cache-control': 'no-cache',
-//   },
-// }).middleware;
+apicache.options({
+  headers: {
+    'cache-control': 'no-cache',
+  },
+}).middleware;
 
 const app = express();
 
@@ -22,7 +22,7 @@ const NODE_ENV = env.NODE_ENV || 'development';
 
 app.set('port', PORT);
 app.set('env', NODE_ENV);
-// app.set('Cache-Control', 'no-cache');
+app.set('Cache-Control', 'no-cache');
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, API-Key');
@@ -34,7 +34,7 @@ app.use(compression());
 
 app.use(logger('tiny'));
 app.use(json());
-// app.use(apicache.middleware('1 day'));
+app.use(apicache.middleware('1 day'));
 
 app.use((req, res, next) => {
   const apiKey = req.get('API-Key');
