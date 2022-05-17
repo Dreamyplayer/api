@@ -46,7 +46,7 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-  res.send('Express on Vercel');
+  res.status(200).send('API is running');
 });
 
 app.get('/collections/anime', (req, res) => [
