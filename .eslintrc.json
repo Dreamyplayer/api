@@ -1,16 +1,12 @@
 {
-  "extends": ["strongloop", "plugin:prettier/recommended"],
-  "plugins": ["import"],
-  "parserOptions": {
-    "ecmaVersion": 2022,
-    "sourceType": "module"
-  },
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "prettier"],
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
   "rules": {
-    "max-len": [2, 160, 8],
-    "prettier/prettier": "error"
+    "prettier/prettier": 2
   },
   "env": {
-    "es2020": true,
     "node": true
   }
 }
