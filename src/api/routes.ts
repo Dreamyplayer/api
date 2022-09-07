@@ -1,12 +1,11 @@
 import apicache from 'apicache';
 import cors from 'cors';
-import type { Request, Response } from 'express';
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import { getLangCode, getLangsList } from './routes/lang.controller.js';
 import { getAnime, getMusic } from './routes/store.controller.js';
 import { getTranslate } from './routes/trans.controller.js';
 
-const router = Router();
+const router: Router = Router();
 
 apicache.options({
   headers: {

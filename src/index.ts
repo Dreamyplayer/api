@@ -1,12 +1,12 @@
 import { config } from 'dotenv';
-import express, { json } from 'express';
+import express, { json, Express } from 'express';
 import logger from 'morgan';
 import compression from 'compression';
 import { env } from 'node:process';
 import routes from './api/routes.js';
 config();
 
-const app = express();
+const app: Express = express();
 
 const PORT = env.PORT || 8080;
 const NODE_ENV = env.NODE_ENV || 'Development';

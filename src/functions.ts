@@ -6,7 +6,7 @@ export const getkey = (data: Array<{ code: string; name: string }>, key: string)
   return data.find(lang => lang.name === capitalize(key))?.code;
 };
 
-export const randomNoRepeats = (arr: Array<string | number>) => {
+export const randomNoRepeats = (arr: Array<string | number>): string | number => {
   let copy = arr.slice(0);
   return (() => {
     if (copy.length < 1) {
@@ -30,7 +30,7 @@ const buildObject = (arr: Array<{ code: string; name: string }>) => {
 
 const langsObj = buildObject(langsDB);
 
-export const getCode = (desiredLang: string) => {
+export const getCode = (desiredLang: string): string | false => {
   if (!desiredLang) {
     return false;
   }
@@ -54,7 +54,7 @@ export const isSupported = (desiredLang: string): boolean => {
   return Boolean(getCode(desiredLang));
 };
 
-export const extract = (key: string, res: any) => {
+export const extract = (key: string, res: any): string => {
   const re = new RegExp(`"${key}":".*?"`);
   const result = re.exec(res.data);
   if (result !== null) {

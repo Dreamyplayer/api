@@ -13,7 +13,7 @@
       "noUnusedParameters": true,
       "strict": true,
       // TypeScript 4.4
-      // "useUnknownInCatchVariables": true,
+      "useUnknownInCatchVariables": true,
 
       // Modules
       "module": "ESNext",
