@@ -2,6 +2,12 @@ import axios from 'axios';
 import { stringify } from 'node:querystring';
 import { extract, getCode, isSupported } from './functions.js';
 
+interface CustomError {
+  message: string;
+  statusCode: number | undefined;
+  code: string;
+}
+
 interface TranslateOptions {
   FROM?: string;
   TO: string;
@@ -151,7 +157,7 @@ export const translate = async (
 
           return result;
         })
-        .catch(err => {
+        .catch((err: CustomError) => {
           err.message += `\nUrl: ${url}`;
           err.statusCode !== undefined && err.statusCode !== 200
             ? (err.code = 'BAD_REQUEST')
