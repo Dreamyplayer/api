@@ -1,10 +1,10 @@
 import type { Request, Response } from 'express';
 import { getkey } from '../../functions.js';
-import { langsDB, list } from '../../migrations.js';
+import { langsDB, langsList } from '../../migrations.js';
 
 export const getLangsList = (_req: Request, res: Response) => {
   res.status(200).send({
-    List: list.replace(/-/g, '`'),
+    List: langsList?.list.replace(/-/g, '`'),
   });
 };
 

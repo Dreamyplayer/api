@@ -153,11 +153,9 @@ export const translate = async (
         })
         .catch(err => {
           err.message += `\nUrl: ${url}`;
-          if (err.statusCode !== undefined && err.statusCode !== 200) {
-            err.code = 'BAD_REQUEST';
-          } else {
-            err.code = 'BAD_NETWORK';
-          }
+          err.statusCode !== undefined && err.statusCode !== 200
+            ? (err.code = 'BAD_REQUEST')
+            : (err.code = 'BAD_NETWORK');
           throw err;
         });
     });
