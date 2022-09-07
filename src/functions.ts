@@ -2,7 +2,7 @@ import { langsDB } from './migrations.js';
 
 export const capitalize = (str: string): string => str.charAt(0).toUpperCase() + str.slice(1);
 
-export const getkey = (data: Array<{ code: string; name: string }>, key: string) => {
+export const getkey = (data: Array<{ code: string; name: string }>, key: string): string | undefined => {
   return data.find(lang => lang.name === capitalize(key))?.code;
 };
 
