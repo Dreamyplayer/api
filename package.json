@@ -4,11 +4,12 @@
   "main": "./dist/index.js",
   "type": "module",
   "license": "Apache-2.0",
+  "private": "true",
   "scripts": {
-    "start": "node .",
+    "dev": "node .",
     "lint": "eslint . --fix --ext .ts",
     "prettier": "prettier --write . '!**/*.{ts}'",
-    "dev": "tsc --watch"
+    "watch": "tsc --watch"
   },
   "dependencies": {
     "apicache": "^1.6.3",
